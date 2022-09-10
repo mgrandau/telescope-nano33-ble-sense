@@ -13,52 +13,6 @@
 
 #include <Arduino_LSM9DS1.h>
 
-void setup_accelerometer() {
-  Serial.print("Accelerometer sample rate = ");
-  Serial.print(IMU.accelerationSampleRate());
-  Serial.println(" Hz");
-  Serial.println();
-  Serial.println("Acceleration in G's");
-  Serial.println("X\tY\tZ");
-}
-
-void loop_accelerometer() {
-  float x, y, z;
-
-  if (IMU.accelerationAvailable()) {
-    IMU.readAcceleration(x, y, z);
-
-    Serial.print(x);
-    Serial.print('\t');
-    Serial.print(y);
-    Serial.print('\t');
-    Serial.print(z);
-    Serial.print('\t');
-  }
-}
-
-void setup_magnetometer() {
-  Serial.print("Magnetic field sample rate = ");
-  Serial.print(IMU.magneticFieldSampleRate());
-  Serial.println(" uT");
-  Serial.println();
-}
-
-void loop_magnetometer() {
-  float x, y, z;
-
-  if (IMU.magneticFieldAvailable()) {
-    IMU.readMagneticField(x, y, z);
-
-    Serial.print(x);
-    Serial.print('\t');
-    Serial.print(y);
-    Serial.print('\t');
-    Serial.print(z);
-    Serial.print('\t');
-  }
-}
-
 void setup() {
   Serial.begin(9600);
   while (!Serial);
@@ -69,15 +23,38 @@ void setup() {
     while (1);
   }
 
-  setup_accelerometer();
-  setup_magnetometer();
+  /* Serial.print("Accelerometer sample rate = ");
+  Serial.print(IMU.accelerationSampleRate());
+  Serial.println(" Hz");
+
+  Serial.print("Magnetic field sample rate = ");
+  Serial.print(IMU.magneticFieldSampleRate());
+  Serial.println(" uT");
 
   Serial.println("Acceleration in G's\t\tMagnetic Field in uT");
-  Serial.println("aX\taY\taZ\tmX\tmY\tmZ");
+  Serial.println("aX\taY\taZ\tmX\tmY\tmZ"); */
 }
 
 void loop() {
-  loop_accelerometer();
-  loop_magnetometer();
-  Serial.println();
+  float x, y, z;
+  float mx, my, mz;
+
+  if (IMU.accelerationAvailable() && IMU.magneticFieldAvailable()) {
+    IMU.readAcceleration(x, y, z);
+    IMU.readMagneticField(mx, my, mz);
+
+    Serial.print(x);
+    Serial.print('\t');
+    Serial.print(y);
+    Serial.print('\t');
+    Serial.print(z);
+    Serial.print('\t');
+
+    Serial.print(mx);
+    Serial.print('\t');
+    Serial.print(my);
+    Serial.print('\t');
+    Serial.print(mz);
+    Serial.println('\t');
+  }
 }
