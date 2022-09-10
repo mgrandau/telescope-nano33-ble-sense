@@ -54,7 +54,6 @@ void loop() {
     Serial.print('\t');
     Serial.print(my);
     Serial.print('\t');
-    Serial.print(mz);
-    Serial.println('\t');
+    Serial.println(mz);
   }
 }
